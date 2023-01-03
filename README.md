@@ -1,6 +1,6 @@
-# Flutter Starter
+# Seeno
 
-> flutter starter project
+> Manage local notifications
 
 ### What's inside
 
