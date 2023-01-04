@@ -4,7 +4,7 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import '/data/migrations/notification_local.table.dart';
+import '/data/migrations/notification_local_table.dart';
 
 part 'local_database.g.dart';
 

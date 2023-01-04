@@ -1,4 +1,4 @@
-import '/domain/entities/notification.entity.dart';
+import '/domain/entities/notification_entity.dart';
 
 abstract class NotificationRepository {
   Future<int> create(Notification entry);

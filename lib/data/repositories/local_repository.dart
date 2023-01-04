@@ -1,6 +1,6 @@
 import '/data/database/local_database.dart';
-import '/domain/entities/notification.entity.dart';
-import '/domain/repository/notification.repository.dart';
+import '/domain/entities/notification_entity.dart';
+import '/domain/repository/notification_repository.dart';
 
 class LocalRepository implements NotificationRepository {
   final LocalDatabase database;
