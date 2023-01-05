@@ -1,34 +1,23 @@
 import '/data/database/local_database.dart';
-import '/domain/entities/notification_entity.dart';
-import '/domain/repository/notification_repository.dart';
+import '/domain/repositories/notification_repository_local.dart';
 
-class LocalRepository implements NotificationRepository {
-  final LocalDatabase database;
+class LocalRepository implements NotificationRepositoryLocal {
+  LocalDatabase database;
 
   LocalRepository(this.database);
 
   @override
-  Future<int> create(Notification entry) {
-    var data = NotificationLocalCompanion.insert(
-      name: entry.name,
-      schedule: entry.schedule,
-    );
-
-    return database.into(database.notificationLocal).insert(data);
+  Future<int> create(NotificationLocalCompanion entry) {
+    return database.into(database.notificationLocal).insert(entry);
   }
 
   @override
-  Future<int> delete(Notification entry) {
-    var data = NotificationLocalCompanion.insert(
-      name: entry.name,
-      schedule: entry.schedule,
-    );
-
-    return database.into(database.notificationLocal).insert(data);
+  Future<int> delete(NotificationLocalData entry) {
+    return database.delete(database.notificationLocal).delete(entry);
   }
 
   @override
-  Stream<Notification> get({required String id}) {
+  Stream<NotificationLocalData> get({required String id}) {
     var item = database.select(database.notificationLocal)
       ..where(
         (table) => table.id.equals(
@@ -36,22 +25,16 @@ class LocalRepository implements NotificationRepository {
         ),
       );
 
-    return item.watchSingle() as Stream<Notification>;
+    return item.watchSingle();
   }
 
   @override
-  Stream<List<Notification>> read() {
-    return database.select(database.notificationLocal).watch()
-        as Stream<List<Notification>>;
+  Stream<List<NotificationLocalData>> read() {
+    return database.select(database.notificationLocal).watch();
   }
 
   @override
-  Future<bool> update(Notification entry) {
-    var data = NotificationLocalCompanion.insert(
-      name: entry.name,
-      schedule: entry.schedule,
-    );
-
-    return database.update(database.notificationLocal).replace(data);
+  Future<bool> update(NotificationLocalData entry) {
+    return database.update(database.notificationLocal).replace(entry);
   }
 }

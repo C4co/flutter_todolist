@@ -18,6 +18,10 @@ class LocalDatabase extends _$LocalDatabase {
     return _instance;
   }
 
+  // Mock database for tests
+  // https://drift.simonbinder.eu/docs/testing/#setup
+  LocalDatabase.mock(QueryExecutor e) : super(e);
+
   @override
   int get schemaVersion => 1;
 }
