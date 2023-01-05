@@ -48,7 +48,7 @@ void main() {
     expect(items.length, 3);
   });
 
-  test('Should recover one notification', () async {
+  test('Should get one notification', () async {
     final id = await localRepository.create(
       NotificationLocalCompanion.insert(
         name: 'mock notification',
@@ -61,7 +61,7 @@ void main() {
     expect(notification.name, 'mock notification');
   });
 
-  test('Should recover and update a notification', () async {
+  test('Should get and update a notification', () async {
     final id = await localRepository.create(
       NotificationLocalCompanion.insert(
         name: 'mock-notification',
