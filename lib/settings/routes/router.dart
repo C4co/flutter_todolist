@@ -1,4 +1,4 @@
-import '../pages/home_page.dart';
+import '/pages/home_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(routes: [
