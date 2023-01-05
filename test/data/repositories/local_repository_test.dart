@@ -17,13 +17,17 @@ void main() {
   });
 
   test('Should return 1 when create a new notification', () async {
-    var result = await localRepository.create(NotificationLocalCompanion.insert(
-        name: 'mock notification', schedule: '14:00'));
+    var result = await localRepository.create(
+      NotificationLocalCompanion.insert(
+        name: 'mock notification',
+        schedule: '14:00',
+      ),
+    );
 
     expect(result, 1);
   });
 
-  test('Should return a stream of notifications', () async {
+  test('Should read all notifications', () async {
     late List items;
 
     localRepository.read().listen((event) {
@@ -44,7 +48,7 @@ void main() {
     expect(items.length, 3);
   });
 
-  test('Should recover one item form database', () async {
+  test('Should recover one notification', () async {
     final id = await localRepository.create(
       NotificationLocalCompanion.insert(
         name: 'mock notification',
@@ -55,5 +59,37 @@ void main() {
     final notification = await localRepository.get(id: '$id').first;
 
     expect(notification.name, 'mock notification');
+  });
+
+  test('Should recover and update a notification', () async {
+    final id = await localRepository.create(
+      NotificationLocalCompanion.insert(
+        name: 'mock-notification',
+        schedule: '14:00',
+      ),
+    );
+
+    final notification = await localRepository.get(id: '$id').first;
+
+    await localRepository.update(notification.copyWith(name: 'mock-updated'));
+
+    final notificationUpdated = await localRepository.get(id: '$id').first;
+
+    expect(notificationUpdated.name, 'mock-updated');
+  });
+
+  test('Should delete an notification', () async {
+    final id = await localRepository.create(
+      NotificationLocalCompanion.insert(
+        name: 'mock-notification',
+        schedule: '14:00',
+      ),
+    );
+
+    final notification = await localRepository.get(id: '$id').first;
+
+    final deletedId = await localRepository.delete(notification);
+
+    expect(deletedId, 1);
   });
 }
