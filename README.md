@@ -29,6 +29,11 @@ building database
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
+### Resources
+
+Notification icon generator
+http://romannurik.github.io/AndroidAssetStudio/icons-notification.html
+
 ---
 
 Carlos Costa 🦖 2022
