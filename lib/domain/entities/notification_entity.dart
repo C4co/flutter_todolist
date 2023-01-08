@@ -1,9 +1,13 @@
 class Notification {
   String name;
-  String schedule;
+  int hour;
+  int minute;
+  String description;
 
   Notification({
     required this.name,
-    required this.schedule,
+    required this.hour,
+    required this.minute,
+    required this.description,
   });
 }
