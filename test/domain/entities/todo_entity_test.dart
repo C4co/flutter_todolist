@@ -6,8 +6,6 @@ void main() {
     var todo = Todo(
       name: 'todo title',
       description: 'todo description',
-      hour: 2,
-      minute: 0,
     );
 
     expect(

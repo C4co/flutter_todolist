@@ -1,4 +1,6 @@
+import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_todolist/data/repositories/local_repository.dart';
 import 'package:test/test.dart';
 import 'package:flutter_todolist/data/database/local_database.dart';
@@ -21,8 +23,8 @@ void main() {
       TodoLocalCompanion.insert(
         name: 'todo title',
         description: 'todo description',
-        hour: 2,
-        minute: 0,
+        createdAt: '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+        updatedAt: const Value(null),
       ),
     );
 
@@ -38,28 +40,28 @@ void main() {
 
     await localRepository.create(
       TodoLocalCompanion.insert(
-        name: 'todo-name-1',
-        description: 'todo-description-1',
-        hour: 1,
-        minute: 0,
+        name: 'todo title 1',
+        description: 'todo description 1',
+        createdAt: '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+        updatedAt: const Value(null),
       ),
     );
 
     await localRepository.create(
       TodoLocalCompanion.insert(
-        name: 'todo-name-2',
-        description: 'todo-description-2',
-        hour: 2,
-        minute: 0,
+        name: 'todo title 2',
+        description: 'todo description 2',
+        createdAt: '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+        updatedAt: const Value(null),
       ),
     );
 
     await localRepository.create(
       TodoLocalCompanion.insert(
-        name: 'todo-name-3',
-        description: 'todo-description-3',
-        hour: 3,
-        minute: 0,
+        name: 'todo title 1',
+        description: 'todo description 1',
+        createdAt: '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+        updatedAt: const Value(null),
       ),
     );
 
@@ -71,25 +73,25 @@ void main() {
   test('Should get one todo', () async {
     final id = await localRepository.create(
       TodoLocalCompanion.insert(
-        name: 'todo-name-1',
-        description: 'todo-description-1',
-        hour: 1,
-        minute: 0,
+        name: 'todo title 1',
+        description: 'todo description 1',
+        createdAt: '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+        updatedAt: const Value(null),
       ),
     );
 
     final todo = await localRepository.get(id: '$id').first;
 
-    expect(todo.name, 'todo-name-1');
+    expect(todo.name, 'todo title 1');
   });
 
   test('Should get and update a todo', () async {
     final id = await localRepository.create(
       TodoLocalCompanion.insert(
-        name: 'todo-name-1',
-        description: 'todo-description-1',
-        hour: 1,
-        minute: 0,
+        name: 'todo title 1',
+        description: 'todo description 1',
+        createdAt: '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+        updatedAt: const Value(null),
       ),
     );
 
@@ -105,10 +107,10 @@ void main() {
   test('Should delete a todo', () async {
     final id = await localRepository.create(
       TodoLocalCompanion.insert(
-        name: 'todo-name-1',
-        description: 'todo-description-1',
-        hour: 1,
-        minute: 0,
+        name: 'todo title 1',
+        description: 'todo description 1',
+        createdAt: '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+        updatedAt: const Value(null),
       ),
     );
 
