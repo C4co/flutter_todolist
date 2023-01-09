@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/data/database/local_database.dart';
+import 'package:flutter_todolist/data/repositories/local_repository.dart';
 import 'package:go_router/go_router.dart';
-import '/pages/home/home_controller.dart';
 
 import '/settings/themes/basic.theme.dart';
 
 class TodoCard extends StatelessWidget {
-  final String name;
-  final int hour;
-  final int minute;
-  final int id;
+  final TodoLocalData myTodo;
+  final LocalRepository _localRepository = LocalRepository(LocalDatabase());
 
-  const TodoCard({
+  TodoCard({
     super.key,
-    required this.name,
-    required this.hour,
-    required this.minute,
-    required this.id,
+    required this.myTodo,
   });
 
   @override
@@ -24,23 +20,39 @@ class TodoCard extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          context.go('/details/$id');
+          context.go('/details/${myTodo.id}');
         },
+        onLongPress: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('💣 Delete todo'),
+            content: Text('Are you sure to delete (${myTodo.name}) todo?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () async {
+                  _localRepository.delete(myTodo).then(
+                    (value) {
+                      Navigator.pop(context, 'ok');
+                    },
+                  );
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        ),
         child: Container(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                name,
+                myTodo.name,
                 style: ProjectText.title,
               ),
               const SizedBox(height: 4),
               Text(
-                'Todos os dias às ${HomeController.fomatSchedule(
-                  hour: '$hour',
-                  minute: '$minute',
-                )}',
+                'Created at ${myTodo.createdAt}',
                 style: ProjectText.featured,
               ),
             ],

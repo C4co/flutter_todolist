@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
-        title: const Text('flutter_todolist'),
+        title: const Text('Todo list'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -37,7 +37,8 @@ class _HomePageState extends State<HomePage> {
           var items = snapshot.data;
 
           if (snapshot.hasError) {
-            return const Text('Error');
+            print(snapshot.error);
+            return const Text('Error here!');
           }
 
           if (snapshot.hasData && snapshot.data!.toList().isEmpty) {

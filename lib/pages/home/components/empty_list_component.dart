@@ -16,7 +16,7 @@ class EmptyList extends StatelessWidget {
             const Text('🐞', style: TextStyle(fontSize: 50)),
             const SizedBox(height: 20),
             Text(
-              'Aperte o botão no canto de baixo para criar a sua primeira notificação.',
+              'Empty list, press the float button to create the first todo',
               textAlign: TextAlign.center,
               style: ProjectText.text,
             ),

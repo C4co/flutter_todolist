@@ -20,12 +20,7 @@ class ListTodoCards extends StatelessWidget {
       itemBuilder: (context, index) {
         TodoLocalData todo = items![index];
 
-        return (TodoCard(
-          id: todo.id,
-          name: todo.name,
-          hour: todo.hour,
-          minute: todo.minute,
-        ));
+        return TodoCard(myTodo: todo);
       },
     );
   }

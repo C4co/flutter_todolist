@@ -1,8 +1,10 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_todolist/data/database/local_database.dart';
 import 'package:flutter_todolist/data/repositories/local_repository.dart';
 import 'package:flutter_todolist/pages/home/home_controller.dart';
+import 'package:intl/intl.dart';
 
 class NewTodoPage extends StatefulWidget {
   const NewTodoPage({super.key});
@@ -21,7 +23,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Nova Notificação')),
+      appBar: AppBar(title: const Text('New todo')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(
@@ -34,7 +36,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
                 validator: HomeController.validateName,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.edit),
-                  label: Text('Nome da notificação'),
+                  label: Text('Todo name'),
                 ),
               ),
               const SizedBox(height: 20),
@@ -45,7 +47,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
                 keyboardType: TextInputType.multiline,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.edit),
-                  label: Text('Descrição'),
+                  label: Text('Todo Description'),
                 ),
               ),
               const SizedBox(height: 20),
@@ -56,8 +58,8 @@ class _NewTodoPageState extends State<NewTodoPage> {
                       TodoLocalCompanion.insert(
                         name: _nameController.text,
                         description: _descriptionController.text,
-                        hour: TimeOfDay.now().hour,
-                        minute: TimeOfDay.now().minute,
+                        createdAt: DateFormat.yMMMEd().format(DateTime.now()),
+                        updatedAt: const Value(null),
                       ),
                     );
 
@@ -69,7 +71,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
                 child: const SizedBox(
                   width: double.infinity,
                   child: Center(
-                    child: Text('Criar Notificação'),
+                    child: Text('Create todo'),
                   ),
                 ),
               )
