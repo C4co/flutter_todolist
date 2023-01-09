@@ -35,18 +35,21 @@ class $TodoLocalTable extends TodoLocal
           minTextLength: 2, maxTextLength: 1000),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _hourMeta = const VerificationMeta('hour');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   @override
-  late final GeneratedColumn<int> hour = GeneratedColumn<int>(
-      'hour', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _minuteMeta = const VerificationMeta('minute');
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
   @override
-  late final GeneratedColumn<int> minute = GeneratedColumn<int>(
-      'minute', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+  late final GeneratedColumn<String> updatedAt = GeneratedColumn<String>(
+      'updated_at', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns => [id, name, description, hour, minute];
+  List<GeneratedColumn> get $columns =>
+      [id, name, description, createdAt, updatedAt];
   @override
   String get aliasedName => _alias ?? 'todo_local';
   @override
@@ -73,17 +76,15 @@ class $TodoLocalTable extends TodoLocal
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
-    if (data.containsKey('hour')) {
-      context.handle(
-          _hourMeta, hour.isAcceptableOrUnknown(data['hour']!, _hourMeta));
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
-      context.missing(_hourMeta);
+      context.missing(_createdAtMeta);
     }
-    if (data.containsKey('minute')) {
-      context.handle(_minuteMeta,
-          minute.isAcceptableOrUnknown(data['minute']!, _minuteMeta));
-    } else if (isInserting) {
-      context.missing(_minuteMeta);
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     }
     return context;
   }
@@ -100,10 +101,10 @@ class $TodoLocalTable extends TodoLocal
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
-      hour: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}hour'])!,
-      minute: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}minute'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}updated_at']),
     );
   }
 
@@ -117,22 +118,24 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
   final int id;
   final String name;
   final String description;
-  final int hour;
-  final int minute;
+  final String createdAt;
+  final String? updatedAt;
   const TodoLocalData(
       {required this.id,
       required this.name,
       required this.description,
-      required this.hour,
-      required this.minute});
+      required this.createdAt,
+      this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['description'] = Variable<String>(description);
-    map['hour'] = Variable<int>(hour);
-    map['minute'] = Variable<int>(minute);
+    map['created_at'] = Variable<String>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<String>(updatedAt);
+    }
     return map;
   }
 
@@ -141,8 +144,10 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
       id: Value(id),
       name: Value(name),
       description: Value(description),
-      hour: Value(hour),
-      minute: Value(minute),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
     );
   }
 
@@ -153,8 +158,8 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String>(json['description']),
-      hour: serializer.fromJson<int>(json['hour']),
-      minute: serializer.fromJson<int>(json['minute']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      updatedAt: serializer.fromJson<String?>(json['updatedAt']),
     );
   }
   @override
@@ -164,8 +169,8 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String>(description),
-      'hour': serializer.toJson<int>(hour),
-      'minute': serializer.toJson<int>(minute),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'updatedAt': serializer.toJson<String?>(updatedAt),
     };
   }
 
@@ -173,14 +178,14 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
           {int? id,
           String? name,
           String? description,
-          int? hour,
-          int? minute}) =>
+          String? createdAt,
+          Value<String?> updatedAt = const Value.absent()}) =>
       TodoLocalData(
         id: id ?? this.id,
         name: name ?? this.name,
         description: description ?? this.description,
-        hour: hour ?? this.hour,
-        minute: minute ?? this.minute,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
       );
   @override
   String toString() {
@@ -188,14 +193,14 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
-          ..write('hour: $hour, ')
-          ..write('minute: $minute')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, description, hour, minute);
+  int get hashCode => Object.hash(id, name, description, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -203,46 +208,45 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
           other.id == this.id &&
           other.name == this.name &&
           other.description == this.description &&
-          other.hour == this.hour &&
-          other.minute == this.minute);
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
 }
 
 class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> description;
-  final Value<int> hour;
-  final Value<int> minute;
+  final Value<String> createdAt;
+  final Value<String?> updatedAt;
   const TodoLocalCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
-    this.hour = const Value.absent(),
-    this.minute = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
   });
   TodoLocalCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required String description,
-    required int hour,
-    required int minute,
+    required String createdAt,
+    this.updatedAt = const Value.absent(),
   })  : name = Value(name),
         description = Value(description),
-        hour = Value(hour),
-        minute = Value(minute);
+        createdAt = Value(createdAt);
   static Insertable<TodoLocalData> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? description,
-    Expression<int>? hour,
-    Expression<int>? minute,
+    Expression<String>? createdAt,
+    Expression<String>? updatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
-      if (hour != null) 'hour': hour,
-      if (minute != null) 'minute': minute,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
     });
   }
 
@@ -250,14 +254,14 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
       {Value<int>? id,
       Value<String>? name,
       Value<String>? description,
-      Value<int>? hour,
-      Value<int>? minute}) {
+      Value<String>? createdAt,
+      Value<String?>? updatedAt}) {
     return TodoLocalCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
-      hour: hour ?? this.hour,
-      minute: minute ?? this.minute,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -273,11 +277,11 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
-    if (hour.present) {
-      map['hour'] = Variable<int>(hour.value);
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
     }
-    if (minute.present) {
-      map['minute'] = Variable<int>(minute.value);
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<String>(updatedAt.value);
     }
     return map;
   }
@@ -288,8 +292,8 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
-          ..write('hour: $hour, ')
-          ..write('minute: $minute')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
           ..write(')'))
         .toString();
   }
