@@ -22,20 +22,26 @@ class ProjectText {
     height: 1.5,
     color: Color(0xFF5D5D5D),
   );
+
   static TextStyle title = const TextStyle(
     fontSize: 16,
     height: 1.4,
-    fontWeight: FontWeight.w700,
     color: Colors.black,
+  );
+
+  static TextStyle featured = const TextStyle(
+    fontSize: 14,
+    height: 1.4,
+    color: primaryColorShades,
   );
 }
 
 var basicTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: primaryColorShades,
-  scaffoldBackgroundColor: Colors.grey.shade200,
+  scaffoldBackgroundColor: Colors.white,
   cardTheme: CardTheme(
-    elevation: 2,
+    elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
     ),

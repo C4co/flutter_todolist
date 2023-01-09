@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import '/app.dart';
 import '/settings/themes/basic.theme.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setSystemUIOverlayStyle(

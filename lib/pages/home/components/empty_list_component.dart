@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeno/settings/themes/basic.theme.dart';
+import 'package:flutter_todolist/settings/themes/basic.theme.dart';
 
 class EmptyList extends StatelessWidget {
   const EmptyList({super.key});

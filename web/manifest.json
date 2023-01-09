@@ -1,6 +1,6 @@
 {
-    "name": "seeno",
-    "short_name": "seeno",
+    "name": "flutter_todolist",
+    "short_name": "flutter_todolist",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

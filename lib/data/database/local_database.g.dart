@@ -3,145 +3,12 @@
 part of 'local_database.dart';
 
 // ignore_for_file: type=lint
-class NotificationLocalData extends DataClass
-    implements Insertable<NotificationLocalData> {
-  final int id;
-  final String name;
-  final String schedule;
-  const NotificationLocalData(
-      {required this.id, required this.name, required this.schedule});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    map['schedule'] = Variable<String>(schedule);
-    return map;
-  }
-
-  NotificationLocalCompanion toCompanion(bool nullToAbsent) {
-    return NotificationLocalCompanion(
-      id: Value(id),
-      name: Value(name),
-      schedule: Value(schedule),
-    );
-  }
-
-  factory NotificationLocalData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return NotificationLocalData(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      schedule: serializer.fromJson<String>(json['schedule']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'schedule': serializer.toJson<String>(schedule),
-    };
-  }
-
-  NotificationLocalData copyWith({int? id, String? name, String? schedule}) =>
-      NotificationLocalData(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        schedule: schedule ?? this.schedule,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('NotificationLocalData(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('schedule: $schedule')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, name, schedule);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is NotificationLocalData &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.schedule == this.schedule);
-}
-
-class NotificationLocalCompanion
-    extends UpdateCompanion<NotificationLocalData> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<String> schedule;
-  const NotificationLocalCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.schedule = const Value.absent(),
-  });
-  NotificationLocalCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    required String schedule,
-  })  : name = Value(name),
-        schedule = Value(schedule);
-  static Insertable<NotificationLocalData> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<String>? schedule,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (schedule != null) 'schedule': schedule,
-    });
-  }
-
-  NotificationLocalCompanion copyWith(
-      {Value<int>? id, Value<String>? name, Value<String>? schedule}) {
-    return NotificationLocalCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      schedule: schedule ?? this.schedule,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (schedule.present) {
-      map['schedule'] = Variable<String>(schedule.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('NotificationLocalCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('schedule: $schedule')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $NotificationLocalTable extends NotificationLocal
-    with TableInfo<$NotificationLocalTable, NotificationLocalData> {
+class $TodoLocalTable extends TodoLocal
+    with TableInfo<$TodoLocalTable, TodoLocalData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $NotificationLocalTable(this.attachedDatabase, [this._alias]);
+  $TodoLocalTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -159,24 +26,33 @@ class $NotificationLocalTable extends NotificationLocal
           GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 32),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _scheduleMeta =
-      const VerificationMeta('schedule');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
   @override
-  late final GeneratedColumn<String> schedule = GeneratedColumn<String>(
-      'schedule', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 32),
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(
+          minTextLength: 2, maxTextLength: 1000),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
+  static const VerificationMeta _hourMeta = const VerificationMeta('hour');
   @override
-  List<GeneratedColumn> get $columns => [id, name, schedule];
+  late final GeneratedColumn<int> hour = GeneratedColumn<int>(
+      'hour', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _minuteMeta = const VerificationMeta('minute');
   @override
-  String get aliasedName => _alias ?? 'notification_local';
+  late final GeneratedColumn<int> minute = GeneratedColumn<int>(
+      'minute', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   @override
-  String get actualTableName => 'notification_local';
+  List<GeneratedColumn> get $columns => [id, name, description, hour, minute];
   @override
-  VerificationContext validateIntegrity(
-      Insertable<NotificationLocalData> instance,
+  String get aliasedName => _alias ?? 'todo_local';
+  @override
+  String get actualTableName => 'todo_local';
+  @override
+  VerificationContext validateIntegrity(Insertable<TodoLocalData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -189,11 +65,25 @@ class $NotificationLocalTable extends NotificationLocal
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('schedule')) {
-      context.handle(_scheduleMeta,
-          schedule.isAcceptableOrUnknown(data['schedule']!, _scheduleMeta));
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     } else if (isInserting) {
-      context.missing(_scheduleMeta);
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('hour')) {
+      context.handle(
+          _hourMeta, hour.isAcceptableOrUnknown(data['hour']!, _hourMeta));
+    } else if (isInserting) {
+      context.missing(_hourMeta);
+    }
+    if (data.containsKey('minute')) {
+      context.handle(_minuteMeta,
+          minute.isAcceptableOrUnknown(data['minute']!, _minuteMeta));
+    } else if (isInserting) {
+      context.missing(_minuteMeta);
     }
     return context;
   }
@@ -201,31 +91,216 @@ class $NotificationLocalTable extends NotificationLocal
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  NotificationLocalData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  TodoLocalData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return NotificationLocalData(
+    return TodoLocalData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      schedule: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}schedule'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      hour: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}hour'])!,
+      minute: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}minute'])!,
     );
   }
 
   @override
-  $NotificationLocalTable createAlias(String alias) {
-    return $NotificationLocalTable(attachedDatabase, alias);
+  $TodoLocalTable createAlias(String alias) {
+    return $TodoLocalTable(attachedDatabase, alias);
+  }
+}
+
+class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
+  final int id;
+  final String name;
+  final String description;
+  final int hour;
+  final int minute;
+  const TodoLocalData(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.hour,
+      required this.minute});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['description'] = Variable<String>(description);
+    map['hour'] = Variable<int>(hour);
+    map['minute'] = Variable<int>(minute);
+    return map;
+  }
+
+  TodoLocalCompanion toCompanion(bool nullToAbsent) {
+    return TodoLocalCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: Value(description),
+      hour: Value(hour),
+      minute: Value(minute),
+    );
+  }
+
+  factory TodoLocalData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TodoLocalData(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String>(json['description']),
+      hour: serializer.fromJson<int>(json['hour']),
+      minute: serializer.fromJson<int>(json['minute']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String>(description),
+      'hour': serializer.toJson<int>(hour),
+      'minute': serializer.toJson<int>(minute),
+    };
+  }
+
+  TodoLocalData copyWith(
+          {int? id,
+          String? name,
+          String? description,
+          int? hour,
+          int? minute}) =>
+      TodoLocalData(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        hour: hour ?? this.hour,
+        minute: minute ?? this.minute,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('TodoLocalData(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('hour: $hour, ')
+          ..write('minute: $minute')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, description, hour, minute);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TodoLocalData &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.hour == this.hour &&
+          other.minute == this.minute);
+}
+
+class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> description;
+  final Value<int> hour;
+  final Value<int> minute;
+  const TodoLocalCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.hour = const Value.absent(),
+    this.minute = const Value.absent(),
+  });
+  TodoLocalCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String description,
+    required int hour,
+    required int minute,
+  })  : name = Value(name),
+        description = Value(description),
+        hour = Value(hour),
+        minute = Value(minute);
+  static Insertable<TodoLocalData> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<int>? hour,
+    Expression<int>? minute,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (hour != null) 'hour': hour,
+      if (minute != null) 'minute': minute,
+    });
+  }
+
+  TodoLocalCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? name,
+      Value<String>? description,
+      Value<int>? hour,
+      Value<int>? minute}) {
+    return TodoLocalCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      hour: hour ?? this.hour,
+      minute: minute ?? this.minute,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (hour.present) {
+      map['hour'] = Variable<int>(hour.value);
+    }
+    if (minute.present) {
+      map['minute'] = Variable<int>(minute.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TodoLocalCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('hour: $hour, ')
+          ..write('minute: $minute')
+          ..write(')'))
+        .toString();
   }
 }
 
 abstract class _$LocalDatabase extends GeneratedDatabase {
   _$LocalDatabase(QueryExecutor e) : super(e);
-  late final $NotificationLocalTable notificationLocal =
-      $NotificationLocalTable(this);
+  late final $TodoLocalTable todoLocal = $TodoLocalTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [notificationLocal];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [todoLocal];
 }

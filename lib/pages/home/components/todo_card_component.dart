@@ -4,13 +4,13 @@ import '/pages/home/home_controller.dart';
 
 import '/settings/themes/basic.theme.dart';
 
-class NotificationCard extends StatelessWidget {
+class TodoCard extends StatelessWidget {
   final String name;
   final int hour;
   final int minute;
   final int id;
 
-  const NotificationCard({
+  const TodoCard({
     super.key,
     required this.name,
     required this.hour,

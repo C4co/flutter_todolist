@@ -4,11 +4,11 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import '/data/tables/notification_local_table.dart';
+import '../tables/todo_local_table.dart';
 
 part 'local_database.g.dart';
 
-@DriftDatabase(tables: [NotificationLocal])
+@DriftDatabase(tables: [TodoLocal])
 class LocalDatabase extends _$LocalDatabase {
   static final LocalDatabase _instance = LocalDatabase._();
 

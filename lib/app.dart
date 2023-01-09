@@ -8,6 +8,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: 'Flutter ToDoList',
       theme: basicTheme,
       debugShowCheckedModeBanner: false,
       routerConfig: router,

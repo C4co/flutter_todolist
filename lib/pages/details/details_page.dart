@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeno/pages/home/home_controller.dart';
-import 'package:seeno/settings/themes/basic.theme.dart';
+import 'package:flutter_todolist/pages/home/home_controller.dart';
+import 'package:flutter_todolist/settings/themes/basic.theme.dart';
 import '/data/database/local_database.dart';
 import '/data/repositories/local_repository.dart';
 
@@ -23,7 +23,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: _localRepository.get(id: widget.id!),
-      builder: (context, AsyncSnapshot<NotificationLocalData> snapshot) {
+      builder: (context, AsyncSnapshot<TodoLocalData> snapshot) {
         // show data here!
         if (snapshot.hasError) {
           return Scaffold(
@@ -37,7 +37,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
         // show data here!
         if (snapshot.hasData) {
-          NotificationLocalData? item = snapshot.data;
+          TodoLocalData? item = snapshot.data;
 
           return Scaffold(
             appBar: AppBar(

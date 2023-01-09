@@ -1,10 +1,10 @@
-class Notification {
+class Todo {
   String name;
   int hour;
   int minute;
   String description;
 
-  Notification({
+  Todo({
     required this.name,
     required this.hour,
     required this.minute,
