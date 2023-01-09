@@ -4,10 +4,15 @@ import 'package:test/test.dart';
 void main() {
   test('Should verify the notification entity', () {
     var myNotification = Notification(
-      name: 'mock notification',
-      schedule: '2:00',
+      name: 'notification title',
+      description: 'notification description',
+      hour: 2,
+      minute: 0,
     );
 
-    expect(myNotification.toString(), equals("Instance of 'Notification'"));
+    expect(
+      myNotification.toString(),
+      equals("Instance of 'Notification'"),
+    );
   });
 }

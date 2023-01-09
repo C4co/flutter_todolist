@@ -19,8 +19,10 @@ void main() {
   test('Should return 1 when create a new notification', () async {
     var result = await localRepository.create(
       NotificationLocalCompanion.insert(
-        name: 'mock notification',
-        schedule: '14:00',
+        name: 'notification title',
+        description: 'notification description',
+        hour: 2,
+        minute: 0,
       ),
     );
 
@@ -34,14 +36,32 @@ void main() {
       items = event;
     });
 
-    await localRepository.create(NotificationLocalCompanion.insert(
-        name: 'mock-notification-1', schedule: '14:00'));
+    await localRepository.create(
+      NotificationLocalCompanion.insert(
+        name: 'notification-name-1',
+        description: 'notification-description-1',
+        hour: 1,
+        minute: 0,
+      ),
+    );
 
-    await localRepository.create(NotificationLocalCompanion.insert(
-        name: 'mock-notification-2', schedule: '15:00'));
+    await localRepository.create(
+      NotificationLocalCompanion.insert(
+        name: 'notification-name-2',
+        description: 'notification-description-2',
+        hour: 2,
+        minute: 0,
+      ),
+    );
 
-    await localRepository.create(NotificationLocalCompanion.insert(
-        name: 'mock-notification-3', schedule: '16:00'));
+    await localRepository.create(
+      NotificationLocalCompanion.insert(
+        name: 'notification-name-3',
+        description: 'notification-description-3',
+        hour: 3,
+        minute: 0,
+      ),
+    );
 
     await Future.delayed(const Duration(seconds: 1));
 
@@ -51,38 +71,45 @@ void main() {
   test('Should get one notification', () async {
     final id = await localRepository.create(
       NotificationLocalCompanion.insert(
-        name: 'mock notification',
-        schedule: '14:00',
+        name: 'notification-name-1',
+        description: 'notification-description-1',
+        hour: 1,
+        minute: 0,
       ),
     );
 
     final notification = await localRepository.get(id: '$id').first;
 
-    expect(notification.name, 'mock notification');
+    expect(notification.name, 'notification-name-1');
   });
 
   test('Should get and update a notification', () async {
     final id = await localRepository.create(
       NotificationLocalCompanion.insert(
-        name: 'mock-notification',
-        schedule: '14:00',
+        name: 'notification-name-1',
+        description: 'notification-description-1',
+        hour: 1,
+        minute: 0,
       ),
     );
 
     final notification = await localRepository.get(id: '$id').first;
 
-    await localRepository.update(notification.copyWith(name: 'mock-updated'));
+    await localRepository
+        .update(notification.copyWith(name: 'notification-name-updated'));
 
     final notificationUpdated = await localRepository.get(id: '$id').first;
 
-    expect(notificationUpdated.name, 'mock-updated');
+    expect(notificationUpdated.name, 'notification-name-updated');
   });
 
   test('Should delete an notification', () async {
     final id = await localRepository.create(
       NotificationLocalCompanion.insert(
-        name: 'mock-notification',
-        schedule: '14:00',
+        name: 'notification-name-1',
+        description: 'notification-description-1',
+        hour: 1,
+        minute: 0,
       ),
     );
 
