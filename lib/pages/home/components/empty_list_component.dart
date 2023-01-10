@@ -13,10 +13,12 @@ class EmptyList extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('🐞', style: TextStyle(fontSize: 50)),
+            const Text('🍔', style: TextStyle(fontSize: 50)),
+            const SizedBox(height: 20),
+            Text('Empty list', style: ProjectText.title),
             const SizedBox(height: 20),
             Text(
-              'Empty list, press the float button to create the first todo',
+              'Press the float button to create the first todo',
               textAlign: TextAlign.center,
               style: ProjectText.text,
             ),

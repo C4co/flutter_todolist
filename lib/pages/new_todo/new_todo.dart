@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_todolist/data/database/local_database.dart';
 import 'package:flutter_todolist/data/repositories/local_repository.dart';
-import 'package:flutter_todolist/pages/home/home_controller.dart';
+import 'package:flutter_todolist/pages/pages_controller.dart';
 import 'package:intl/intl.dart';
 
 class NewTodoPage extends StatefulWidget {
@@ -33,7 +33,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
             children: [
               TextFormField(
                 controller: _nameController,
-                validator: HomeController.validateName,
+                validator: PagesController.validateName,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.edit),
                   label: Text('Todo name'),
@@ -42,7 +42,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _descriptionController,
-                validator: HomeController.validateDescription,
+                validator: PagesController.validateDescription,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: const InputDecoration(

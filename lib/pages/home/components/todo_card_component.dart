@@ -85,7 +85,9 @@ class _TodoCardState extends State<TodoCard>
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Created at ${widget.todo.createdAt}',
+                    widget.todo.updatedAt != null
+                        ? 'Updated at ${widget.todo.updatedAt!}'
+                        : 'Created at ${widget.todo.createdAt}',
                     style: ProjectText.featured,
                   ),
                 ],

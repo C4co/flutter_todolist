@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomeController {
+class PagesController {
   static String fomatSchedule({String hour = '0', String minute = '0'}) {
     String formatedHour = hour.length == 1 ? '0$hour' : hour;
     String formatedMinute = minute.length == 1 ? '0$minute' : minute;
@@ -17,11 +17,15 @@ class HomeController {
 
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'O campo nome é obrigatório';
+      return 'The name is required';
     }
 
     if (value.length <= 2) {
-      return 'Nome muito pequeno';
+      return 'Must be at least 2 characters';
+    }
+
+    if (value.length > 32) {
+      return 'Must at most be 32 characters long';
     }
 
     return null;
@@ -29,11 +33,11 @@ class HomeController {
 
   static String? validateDescription(String? value) {
     if (value == null || value.isEmpty) {
-      return 'O campo descrição é obrigatório';
+      return 'The description is required';
     }
 
     if (value.length <= 2) {
-      return 'Descrição muito pequena';
+      return 'Must be at least 2 characters';
     }
 
     return null;

@@ -44,7 +44,9 @@ class _DetailsPageState extends State<DetailsPage> {
               title: Text(item!.name),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go('/edit/${item.id}');
+                  },
                   icon: const Icon(Icons.edit),
                 ),
                 IconButton(
@@ -97,7 +99,20 @@ class _DetailsPageState extends State<DetailsPage> {
                   Text(
                     'Created at ${item.createdAt}',
                     style: ProjectText.featured,
-                  )
+                  ),
+                  if (item.updatedAt != null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 10),
+                        Divider(height: 1, color: Colors.grey.shade500),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Updated at ${item.updatedAt}',
+                          style: ProjectText.featured,
+                        ),
+                      ],
+                    )
                 ],
               ),
             ),
