@@ -29,6 +29,13 @@ class ProjectText {
     color: Colors.black,
   );
 
+  static TextStyle titleChecked = const TextStyle(
+    fontSize: 16,
+    height: 1.4,
+    color: Colors.black,
+    decoration: TextDecoration.lineThrough,
+  );
+
   static TextStyle featured = const TextStyle(
     fontSize: 14,
     height: 1.4,

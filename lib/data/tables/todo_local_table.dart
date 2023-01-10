@@ -6,4 +6,5 @@ class TodoLocal extends Table {
   TextColumn get description => text().withLength(min: 2, max: 1000)();
   TextColumn get createdAt => text()();
   TextColumn? get updatedAt => text().nullable()();
+  BoolColumn get checked => boolean().withDefault(const Constant(false))();
 }

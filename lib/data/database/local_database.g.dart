@@ -47,9 +47,22 @@ class $TodoLocalTable extends TodoLocal
   late final GeneratedColumn<String> updatedAt = GeneratedColumn<String>(
       'updated_at', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _checkedMeta =
+      const VerificationMeta('checked');
+  @override
+  late final GeneratedColumn<bool> checked =
+      GeneratedColumn<bool>('checked', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: false,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("checked" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }),
+          defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, description, createdAt, updatedAt];
+      [id, name, description, createdAt, updatedAt, checked];
   @override
   String get aliasedName => _alias ?? 'todo_local';
   @override
@@ -86,6 +99,10 @@ class $TodoLocalTable extends TodoLocal
       context.handle(_updatedAtMeta,
           updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     }
+    if (data.containsKey('checked')) {
+      context.handle(_checkedMeta,
+          checked.isAcceptableOrUnknown(data['checked']!, _checkedMeta));
+    }
     return context;
   }
 
@@ -105,6 +122,8 @@ class $TodoLocalTable extends TodoLocal
           .read(DriftSqlType.string, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}updated_at']),
+      checked: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}checked'])!,
     );
   }
 
@@ -120,12 +139,14 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
   final String description;
   final String createdAt;
   final String? updatedAt;
+  final bool checked;
   const TodoLocalData(
       {required this.id,
       required this.name,
       required this.description,
       required this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      required this.checked});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -136,6 +157,7 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
     if (!nullToAbsent || updatedAt != null) {
       map['updated_at'] = Variable<String>(updatedAt);
     }
+    map['checked'] = Variable<bool>(checked);
     return map;
   }
 
@@ -148,6 +170,7 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
       updatedAt: updatedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(updatedAt),
+      checked: Value(checked),
     );
   }
 
@@ -160,6 +183,7 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
       description: serializer.fromJson<String>(json['description']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
       updatedAt: serializer.fromJson<String?>(json['updatedAt']),
+      checked: serializer.fromJson<bool>(json['checked']),
     );
   }
   @override
@@ -171,6 +195,7 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
       'description': serializer.toJson<String>(description),
       'createdAt': serializer.toJson<String>(createdAt),
       'updatedAt': serializer.toJson<String?>(updatedAt),
+      'checked': serializer.toJson<bool>(checked),
     };
   }
 
@@ -179,13 +204,15 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
           String? name,
           String? description,
           String? createdAt,
-          Value<String?> updatedAt = const Value.absent()}) =>
+          Value<String?> updatedAt = const Value.absent(),
+          bool? checked}) =>
       TodoLocalData(
         id: id ?? this.id,
         name: name ?? this.name,
         description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+        checked: checked ?? this.checked,
       );
   @override
   String toString() {
@@ -194,13 +221,15 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('checked: $checked')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, description, createdAt, updatedAt);
+  int get hashCode =>
+      Object.hash(id, name, description, createdAt, updatedAt, checked);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -209,7 +238,8 @@ class TodoLocalData extends DataClass implements Insertable<TodoLocalData> {
           other.name == this.name &&
           other.description == this.description &&
           other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
+          other.updatedAt == this.updatedAt &&
+          other.checked == this.checked);
 }
 
 class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
@@ -218,12 +248,14 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
   final Value<String> description;
   final Value<String> createdAt;
   final Value<String?> updatedAt;
+  final Value<bool> checked;
   const TodoLocalCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.checked = const Value.absent(),
   });
   TodoLocalCompanion.insert({
     this.id = const Value.absent(),
@@ -231,6 +263,7 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
     required String description,
     required String createdAt,
     this.updatedAt = const Value.absent(),
+    this.checked = const Value.absent(),
   })  : name = Value(name),
         description = Value(description),
         createdAt = Value(createdAt);
@@ -240,6 +273,7 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
     Expression<String>? description,
     Expression<String>? createdAt,
     Expression<String>? updatedAt,
+    Expression<bool>? checked,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -247,6 +281,7 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
       if (description != null) 'description': description,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (checked != null) 'checked': checked,
     });
   }
 
@@ -255,13 +290,15 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
       Value<String>? name,
       Value<String>? description,
       Value<String>? createdAt,
-      Value<String?>? updatedAt}) {
+      Value<String?>? updatedAt,
+      Value<bool>? checked}) {
     return TodoLocalCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      checked: checked ?? this.checked,
     );
   }
 
@@ -283,6 +320,9 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
     if (updatedAt.present) {
       map['updated_at'] = Variable<String>(updatedAt.value);
     }
+    if (checked.present) {
+      map['checked'] = Variable<bool>(checked.value);
+    }
     return map;
   }
 
@@ -293,7 +333,8 @@ class TodoLocalCompanion extends UpdateCompanion<TodoLocalData> {
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('checked: $checked')
           ..write(')'))
         .toString();
   }

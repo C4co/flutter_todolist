@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
           var items = snapshot.data;
 
           if (snapshot.hasError) {
-            print(snapshot.error);
             return const Text('Error here!');
           }
 

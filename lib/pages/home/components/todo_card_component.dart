@@ -5,32 +5,50 @@ import 'package:go_router/go_router.dart';
 
 import '/settings/themes/basic.theme.dart';
 
-class TodoCard extends StatelessWidget {
-  final TodoLocalData myTodo;
-  final LocalRepository _localRepository = LocalRepository(LocalDatabase());
+class TodoCard extends StatefulWidget {
+  final TodoLocalData todo;
+  final Key cardKey;
 
-  TodoCard({
-    super.key,
-    required this.myTodo,
-  });
+  const TodoCard({
+    required this.cardKey,
+    required this.todo,
+  }) : super(key: cardKey);
+
+  @override
+  State<TodoCard> createState() => _TodoCardState();
+}
+
+class _TodoCardState extends State<TodoCard>
+    with AutomaticKeepAliveClientMixin {
+  final LocalRepository _localRepository = LocalRepository(LocalDatabase());
+  bool checked = false;
+
+  @override
+  void initState() {
+    checked = widget.todo.checked;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Material(
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          context.go('/details/${myTodo.id}');
+          context.go('/details/${widget.todo.id}');
         },
         onLongPress: () => showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
             title: const Text('💣 Delete todo'),
-            content: Text('Are you sure to delete (${myTodo.name}) todo?'),
+            content: Text('Are you sure to delete (${widget.todo.name}) todo?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () async {
-                  _localRepository.delete(myTodo).then(
+                  _localRepository.delete(widget.todo).then(
                     (value) {
                       Navigator.pop(context, 'ok');
                     },
@@ -43,17 +61,34 @@ class TodoCard extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              Text(
-                myTodo.name,
-                style: ProjectText.title,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Created at ${myTodo.createdAt}',
-                style: ProjectText.featured,
+              Checkbox(
+                  value: checked,
+                  onChanged: (bool? value) {
+                    setState(() async {
+                      checked = value!;
+
+                      await _localRepository
+                          .update(widget.todo.copyWith(checked: value));
+                    });
+                  }),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.todo.name,
+                    style: widget.todo.checked
+                        ? ProjectText.titleChecked
+                        : ProjectText.title,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Created at ${widget.todo.createdAt}',
+                    style: ProjectText.featured,
+                  ),
+                ],
               ),
             ],
           ),
@@ -61,4 +96,7 @@ class TodoCard extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
