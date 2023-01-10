@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '/pages/home/components/empty_list_component.dart';
 import 'components/list_todo_cards_component.dart';
-import '/settings/components/loading_component.dart';
+import '../../core/components/loading_component.dart';
 
 import '/data/database/local_database.dart';
 import '/data/repositories/local_repository.dart';
