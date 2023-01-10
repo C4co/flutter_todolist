@@ -1,4 +1,4 @@
-import 'package:flutter_todolist/data/database/local_database.dart';
+import '/data/database/local_database.dart';
 
 abstract class TodoRepositoryLocal {
   Future<int> create(TodoLocalCompanion entry);

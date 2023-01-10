@@ -1,5 +1,5 @@
 import '/data/database/local_database.dart';
-import '../../domain/repositories/todo_repository_local.dart';
+import '/domain/repositories/todo_repository_local.dart';
 
 class LocalRepository implements TodoRepositoryLocal {
   LocalDatabase database;

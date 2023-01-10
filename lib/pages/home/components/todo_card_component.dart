@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/data/database/local_database.dart';
-import 'package:flutter_todolist/data/repositories/local_repository.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/themes/basic.theme.dart';
+import '/data/database/local_database.dart';
+import '/data/repositories/local_repository.dart';
+import '/core/themes/basic.theme.dart';
 
 class TodoCard extends StatefulWidget {
   final TodoLocalData todo;

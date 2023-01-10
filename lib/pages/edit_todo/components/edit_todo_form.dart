@@ -1,10 +1,11 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/data/database/local_database.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../../data/repositories/local_repository.dart';
-import '../../pages_controller.dart';
+
+import '/data/database/local_database.dart';
+import '/data/repositories/local_repository.dart';
+import '/pages/pages_controller.dart';
 
 class EditTodoForm extends StatefulWidget {
   final TodoLocalData todo;

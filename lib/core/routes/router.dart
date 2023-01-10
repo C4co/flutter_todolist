@@ -1,9 +1,9 @@
 import 'package:flutter_todolist/pages/edit_todo/edit_todo.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../pages/new_todo/new_todo.dart';
+import '/pages/new_todo/new_todo.dart';
 import '/pages/home/home_page.dart';
 import '/pages/details/details_page.dart';
-import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
   routes: [

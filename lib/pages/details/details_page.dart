@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/core/themes/basic.theme.dart';
 import 'package:go_router/go_router.dart';
+
+import '/core/themes/basic.theme.dart';
 import '/data/database/local_database.dart';
 import '/data/repositories/local_repository.dart';
 

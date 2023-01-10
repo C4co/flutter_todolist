@@ -4,7 +4,7 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import '../tables/todo_local_table.dart';
+import '/data/tables/todo_local_table.dart';
 
 part 'local_database.g.dart';
 

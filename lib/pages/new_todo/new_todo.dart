@@ -1,10 +1,11 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_todolist/data/database/local_database.dart';
-import 'package:flutter_todolist/data/repositories/local_repository.dart';
-import 'package:flutter_todolist/pages/pages_controller.dart';
 import 'package:intl/intl.dart';
+
+import '/data/database/local_database.dart';
+import '/data/repositories/local_repository.dart';
+import '/pages/pages_controller.dart';
 
 class NewTodoPage extends StatefulWidget {
   const NewTodoPage({super.key});

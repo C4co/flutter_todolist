@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/data/database/local_database.dart';
-import 'package:flutter_todolist/data/repositories/local_repository.dart';
-import 'package:flutter_todolist/pages/edit_todo/components/edit_todo_form.dart';
-import 'package:flutter_todolist/core/components/loading_component.dart';
+
+import '/data/database/local_database.dart';
+import '/data/repositories/local_repository.dart';
+import '/pages/edit_todo/components/edit_todo_form.dart';
+import '/core/components/loading_component.dart';
 
 class EditTodoPage extends StatefulWidget {
   final String? id;
