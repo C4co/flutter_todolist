@@ -66,10 +66,10 @@ class _TodoCardState extends State<TodoCard>
               Checkbox(
                   value: checked,
                   onChanged: (bool? value) {
-                    setState(() async {
+                    setState(() {
                       checked = value!;
 
-                      await _localRepository
+                      _localRepository
                           .update(widget.todo.copyWith(checked: value));
                     });
                   }),
