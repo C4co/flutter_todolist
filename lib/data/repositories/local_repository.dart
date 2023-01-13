@@ -1,14 +1,25 @@
+import 'package:drift/drift.dart';
+import 'package:intl/intl.dart';
+
+import '/domain/entities/todo_entity.dart';
 import '/data/database/local_database.dart';
-import '/domain/repositories/todo_repository_local.dart';
+import '/domain/repositories/todo_repository.dart';
 
-class LocalRepository implements TodoRepositoryLocal {
+class LocalRepository implements TodoRepository<TodoLocalData> {
   LocalDatabase database;
-
   LocalRepository(this.database);
 
   @override
-  Future<int> create(TodoLocalCompanion entry) {
-    return database.into(database.todoLocal).insert(entry);
+  Future<int> create(Todo entry) {
+    var data = TodoLocalCompanion.insert(
+      name: entry.name,
+      description: entry.description,
+      createdAt: DateFormat.yMMMEd().format(
+        DateTime.now(),
+      ),
+    );
+
+    return database.into(database.todoLocal).insert(data);
   }
 
   @override
@@ -35,6 +46,14 @@ class LocalRepository implements TodoRepositoryLocal {
 
   @override
   Future<bool> update(TodoLocalData entry) {
-    return database.update(database.todoLocal).replace(entry);
+    var data = entry.copyWith(
+      updatedAt: Value(
+        DateFormat.yMMMEd().format(
+          DateTime.now(),
+        ),
+      ),
+    );
+
+    return database.update(database.todoLocal).replace(data);
   }
 }

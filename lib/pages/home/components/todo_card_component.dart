@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '/data/services/todo_service.dart';
 import '/data/database/local_database.dart';
-import '/data/repositories/local_repository.dart';
 import '/core/themes/basic.theme.dart';
 
 class TodoCard extends StatefulWidget {
@@ -20,7 +20,7 @@ class TodoCard extends StatefulWidget {
 
 class _TodoCardState extends State<TodoCard>
     with AutomaticKeepAliveClientMixin {
-  final LocalRepository _localRepository = LocalRepository(LocalDatabase());
+  final TodoService _todoService = TodoService();
   bool checked = false;
 
   @override
@@ -48,7 +48,7 @@ class _TodoCardState extends State<TodoCard>
             actions: <Widget>[
               TextButton(
                 onPressed: () async {
-                  _localRepository.delete(widget.todo).then(
+                  _todoService.repository.delete(widget.todo).then(
                     (value) {
                       Navigator.pop(context, 'ok');
                     },
@@ -69,7 +69,7 @@ class _TodoCardState extends State<TodoCard>
                     setState(() {
                       checked = value!;
 
-                      _localRepository
+                      _todoService.repository
                           .update(widget.todo.copyWith(checked: value));
                     });
                   }),

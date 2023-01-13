@@ -1,9 +1,9 @@
 import '/domain/entities/todo_entity.dart';
 
-abstract class TodoRepository {
+abstract class TodoRepository<Model> {
   Future<int> create(Todo entry);
-  Stream<dynamic> get({required String id});
-  Stream<List<Todo>> read();
-  Future<bool> update(Todo entry);
-  Future<int> delete(Todo entry);
+  Stream<Model> get({required String id});
+  Stream<List<Model>> read();
+  Future<bool> update(Model entry);
+  Future<int> delete(Model entry);
 }

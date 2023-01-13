@@ -1,11 +1,9 @@
-import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '/data/database/local_database.dart';
-import '/data/repositories/local_repository.dart';
 import '/pages/pages_controller.dart';
+import '/data/services/todo_service.dart';
 
 class EditTodoForm extends StatefulWidget {
   final TodoLocalData todo;
@@ -19,7 +17,7 @@ class EditTodoForm extends StatefulWidget {
 class _EditTodoFormState extends State<EditTodoForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final LocalRepository _localRepository = LocalRepository(LocalDatabase());
+  final TodoService _todoService = TodoService();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
@@ -59,25 +57,18 @@ class _EditTodoFormState extends State<EditTodoForm> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                _localRepository
-                    .update(
+                await _todoService.repository.update(
                   widget.todo.copyWith(
                     name: _nameController.text,
                     description: _descriptionController.text,
-                    updatedAt: Value(
-                      DateFormat.yMMMEd().format(
-                        DateTime.now(),
-                      ),
-                    ),
                   ),
-                )
-                    .then(
-                  (value) {
-                    context.go('/details/${widget.todo.id}');
-                  },
                 );
+
+                if (mounted) {
+                  context.go('/details/${widget.todo.id}');
+                }
               }
             },
             child: const SizedBox(

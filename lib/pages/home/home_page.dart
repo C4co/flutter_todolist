@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '/data/services/todo_service.dart';
 import '/pages/home/components/empty_list_component.dart';
 import '/core/components/loading_component.dart';
 import 'components/list_todo_cards_component.dart';
 import '/data/database/local_database.dart';
-import '/data/repositories/local_repository.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final LocalRepository _localRepository = LocalRepository(LocalDatabase());
+  final TodoService _todoService = TodoService();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
       ),
       body: StreamBuilder(
-        stream: _localRepository.read(),
+        stream: _todoService.repository.read(),
         builder: (context, AsyncSnapshot<List<TodoLocalData>> snapshot) {
           var items = snapshot.data;
 
