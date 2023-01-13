@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:intl/intl.dart';
 
 import '/domain/entities/todo_entity.dart';
-import '/data/database/local_database.dart';
+import '/data/local/database/local_database.dart';
 import '/domain/repositories/todo_repository.dart';
 
 class LocalRepository implements TodoRepository<TodoLocalData> {

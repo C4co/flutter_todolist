@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/data/services/todo_service.dart';
 import 'package:go_router/go_router.dart';
 
 import '/core/themes/basic.theme.dart';
-import '/data/database/local_database.dart';
+import '/data/local/database/local_database.dart';
+import '/data/services/todo_service.dart';
 
 class DetailsPage extends StatefulWidget {
   final String? id;

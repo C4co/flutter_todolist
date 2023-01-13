@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '/data/database/local_database.dart';
+import '/data/local/database/local_database.dart';
 import '/pages/pages_controller.dart';
 import '/data/services/todo_service.dart';
 

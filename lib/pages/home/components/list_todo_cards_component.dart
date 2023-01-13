@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/data/database/local_database.dart';
+import '/data/local/database/local_database.dart';
 import 'todo_card_component.dart';
 
 class ListTodoCards extends StatelessWidget {

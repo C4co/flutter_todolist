@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '/data/database/local_database.dart';
-import '/data/repositories/local_repository.dart';
+import '/data/local/database/local_database.dart';
+import '/data/local/repositories/local_repository.dart';
 import '/pages/edit_todo/components/edit_todo_form.dart';
 import '/core/components/loading_component.dart';
 

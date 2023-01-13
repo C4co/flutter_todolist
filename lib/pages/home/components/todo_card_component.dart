@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '/data/services/todo_service.dart';
-import '/data/database/local_database.dart';
+import '/data/local/database/local_database.dart';
 import '/core/themes/basic.theme.dart';
 
 class TodoCard extends StatefulWidget {
