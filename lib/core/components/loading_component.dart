@@ -9,6 +9,7 @@ class LoadingComponent extends StatelessWidget {
       child: SizedBox(
         width: 30,
         height: 30,
+        key: Key("loading_indicator"),
         child: CircularProgressIndicator(),
       ),
     );

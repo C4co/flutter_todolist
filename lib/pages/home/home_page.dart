@@ -25,12 +25,14 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Todo list'),
       ),
       floatingActionButton: FloatingActionButton(
+        key: const Key('add_button'),
         onPressed: () {
           context.go('/new_todo');
         },
         child: const Icon(Icons.add),
       ),
       body: StreamBuilder(
+        key: const Key('home_stream_content'),
         stream: _todoService.repository.read(),
         builder: (context, AsyncSnapshot<List<TodoLocalData>> snapshot) {
           var items = snapshot.data;

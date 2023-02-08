@@ -24,6 +24,14 @@ class LocalDatabase extends _$LocalDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  Future<void> deleteEverything() {
+    return transaction(() async {
+      for (final table in allTables) {
+        await delete(table).go();
+      }
+    });
+  }
 }
 
 LazyDatabase _openConnection() {

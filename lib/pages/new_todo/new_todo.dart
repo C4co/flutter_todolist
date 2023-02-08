@@ -31,6 +31,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                key: const Key('name_input'),
                 controller: _nameController,
                 validator: PagesController.validateName,
                 decoration: const InputDecoration(
@@ -40,6 +41,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
               ),
               const SizedBox(height: 20),
               TextFormField(
+                key: const Key('description_input'),
                 controller: _descriptionController,
                 validator: PagesController.validateDescription,
                 maxLines: null,
@@ -51,6 +53,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                key: const Key('submit_button'),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     await _todoService.repository.create(

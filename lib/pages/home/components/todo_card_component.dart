@@ -7,9 +7,11 @@ import '/core/themes/basic.theme.dart';
 
 class TodoCard extends StatefulWidget {
   final TodoLocalData todo;
+  final int index;
   final Key cardKey;
 
   const TodoCard({
+    required this.index,
     required this.cardKey,
     required this.todo,
   }) : super(key: cardKey);
@@ -35,6 +37,7 @@ class _TodoCardState extends State<TodoCard>
     super.build(context);
 
     return Material(
+      key: Key('todo-card-${widget.index}'),
       color: Colors.white,
       child: InkWell(
         onTap: () {
@@ -47,6 +50,7 @@ class _TodoCardState extends State<TodoCard>
             content: Text('Are you sure to delete (${widget.todo.name}) todo?'),
             actions: <Widget>[
               TextButton(
+                key: Key('todo-card-delete-${widget.index}'),
                 onPressed: () async {
                   _todoService.repository.delete(widget.todo).then(
                     (value) {

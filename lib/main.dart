@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '/app.dart';
-import '/core/themes/basic.theme.dart';
 
-void main(List<String> args) async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white,
-      statusBarColor: primaryColorShades,
-    ),
-  );
 
   runApp(const App());
 }

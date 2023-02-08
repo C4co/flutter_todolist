@@ -20,7 +20,7 @@ class ListTodoCards extends StatelessWidget {
       itemBuilder: (context, index) {
         TodoLocalData todo = items![index];
 
-        return TodoCard(todo: todo, cardKey: UniqueKey());
+        return TodoCard(todo: todo, index: index, cardKey: UniqueKey());
       },
     );
   }

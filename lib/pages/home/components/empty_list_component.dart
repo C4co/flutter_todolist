@@ -16,7 +16,11 @@ class EmptyList extends StatelessWidget {
           children: [
             const Text('🍔', style: TextStyle(fontSize: 50)),
             const SizedBox(height: 20),
-            Text('Empty list', style: ProjectText.title),
+            Text(
+              'Empty list',
+              style: ProjectText.title,
+              key: const Key('loading_indicator'),
+            ),
             const SizedBox(height: 20),
             Text(
               'Press the float button to create the first todo',
