@@ -37,6 +37,7 @@ class _EditTodoFormState extends State<EditTodoForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            key: const Key('textfield-edit-name'),
             controller: _nameController,
             validator: PagesController.validateName,
             decoration: const InputDecoration(
@@ -46,6 +47,7 @@ class _EditTodoFormState extends State<EditTodoForm> {
           ),
           const SizedBox(height: 20),
           TextFormField(
+            key: const Key('textfield-edit-description'),
             controller: _descriptionController,
             validator: PagesController.validateDescription,
             maxLines: null,
@@ -57,6 +59,7 @@ class _EditTodoFormState extends State<EditTodoForm> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
+            key: const Key('update-button'),
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 await _todoService.repository.update(

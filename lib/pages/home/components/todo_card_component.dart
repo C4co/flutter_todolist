@@ -68,15 +68,17 @@ class _TodoCardState extends State<TodoCard>
           child: Row(
             children: [
               Checkbox(
-                  value: checked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      checked = value!;
+                key: Key('todo-check-${widget.index}'),
+                value: checked,
+                onChanged: (bool? value) {
+                  setState(() {
+                    checked = value!;
 
-                      _todoService.repository
-                          .update(widget.todo.copyWith(checked: value));
-                    });
-                  }),
+                    _todoService.repository
+                        .update(widget.todo.copyWith(checked: value));
+                  });
+                },
+              ),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

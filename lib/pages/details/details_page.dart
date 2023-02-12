@@ -45,6 +45,7 @@ class _DetailsPageState extends State<DetailsPage> {
               title: Text(item!.name),
               actions: [
                 IconButton(
+                  key: const Key('edit_button'),
                   onPressed: () {
                     context.go('/edit/${item.id}');
                   },
