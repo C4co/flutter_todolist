@@ -1,5 +1,4 @@
-import '/data/local/database/local_database.dart';
-import '/data/local/repositories/local_repository.dart';
+import '/data/data.dart';
 
 class TodoService {
   LocalDatabase database = LocalDatabase();

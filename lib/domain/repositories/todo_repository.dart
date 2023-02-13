@@ -1,4 +1,4 @@
-import '/domain/entities/todo_entity.dart';
+import '/domain/domain.dart';
 
 abstract class TodoRepository<Model> {
   Future<int> create(Todo entry);

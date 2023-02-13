@@ -123,14 +123,16 @@ void main(List<String> args) async {
       expect(find.text('update my todo description'), findsOneWidget);
       expect(find.text('Created at $currentDate'), findsOneWidget);
       expect(find.text('Updated at $currentDate'), findsOneWidget);
-
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        await tester.tap(find.byIcon(Icons.arrow_back));
-      }
     });
 
     testWidgets('Delete a todo', (WidgetTester tester) async {
       app.main();
+
+      await tester.pumpAndSettle();
+
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await tester.tap(find.byIcon(Icons.arrow_back));
+      }
 
       await tester.pumpAndSettle();
 

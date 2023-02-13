@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '/data/services/todo_service.dart';
-import '/data/local/database/local_database.dart';
-import '/core/themes/basic.theme.dart';
+import '/data/data.dart';
+import '/core/core.dart';
 
 class TodoCard extends StatefulWidget {
   final TodoLocalData todo;
@@ -32,6 +31,8 @@ class _TodoCardState extends State<TodoCard>
     super.initState();
   }
 
+  checkHandle() {}
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -43,26 +44,26 @@ class _TodoCardState extends State<TodoCard>
         onTap: () {
           context.go('/details/${widget.todo.id}');
         },
-        onLongPress: () => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: const Text('💣 Delete todo'),
-            content: Text('Are you sure to delete (${widget.todo.name}) todo?'),
+        onLongPress: () {
+          AppDialog.show(
+            context: context,
+            title: '💣 Delete todo',
+            content: 'Are you sure to delete (${widget.todo.name}) todo?',
             actions: <Widget>[
               TextButton(
                 key: Key('todo-card-delete-${widget.index}'),
                 onPressed: () async {
-                  _todoService.repository.delete(widget.todo).then(
-                    (value) {
-                      Navigator.pop(context, 'ok');
-                    },
-                  );
+                  await _todoService.repository.delete(widget.todo);
+
+                  if (mounted) {
+                    Navigator.pop(context);
+                  }
                 },
                 child: const Text('OK'),
               ),
             ],
-          ),
-        ),
+          );
+        },
         child: Container(
           padding: const EdgeInsets.all(20),
           child: Row(

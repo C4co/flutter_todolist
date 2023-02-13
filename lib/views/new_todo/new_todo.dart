@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '/data/services/todo_service.dart';
-import '/domain/entities/todo_entity.dart';
-import '/pages/pages_controller.dart';
+import '/data/data.dart';
+import '/domain/domain.dart';
+import '/views/views.dart';
 
 class NewTodoPage extends StatefulWidget {
   const NewTodoPage({super.key});
@@ -18,6 +18,21 @@ class _NewTodoPageState extends State<NewTodoPage> {
   final TodoService _todoService = TodoService();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
+  submitHandle() async {
+    if (_formKey.currentState!.validate()) {
+      await _todoService.repository.create(
+        Todo(
+          name: _nameController.text,
+          description: _descriptionController.text,
+        ),
+      );
+
+      if (!mounted) return;
+
+      context.go('/');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,20 +69,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 key: const Key('submit_button'),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    await _todoService.repository.create(
-                      Todo(
-                        name: _nameController.text,
-                        description: _descriptionController.text,
-                      ),
-                    );
-
-                    if (!mounted) return;
-
-                    context.go('/');
-                  }
-                },
+                onPressed: submitHandle,
                 child: const SizedBox(
                   width: double.infinity,
                   child: Center(

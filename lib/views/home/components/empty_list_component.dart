@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/core/themes/basic.theme.dart';
+import '/core/core.dart';
 
 class EmptyList extends StatelessWidget {
   const EmptyList({super.key});

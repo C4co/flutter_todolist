@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '/core/themes/basic.theme.dart';
-import '/data/local/database/local_database.dart';
-import '/data/services/todo_service.dart';
+import '/data/data.dart';
+import '/core/core.dart';
 
 class DetailsPage extends StatefulWidget {
   final String? id;
@@ -52,26 +51,25 @@ class _DetailsPageState extends State<DetailsPage> {
                   icon: const Icon(Icons.edit),
                 ),
                 IconButton(
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('💣 Delete todo'),
-                      content:
-                          Text('Are you sure to delete (${item.name}) todo?'),
+                  onPressed: () {
+                    AppDialog.show(
+                      context: context,
+                      title: '💣 Delete todo',
+                      content: 'Are you sure to delete (${item.name}) todo?',
                       actions: <Widget>[
                         TextButton(
                           onPressed: () async {
-                            _todoService.repository.delete(item).then(
-                              (value) {
-                                context.go('/');
-                              },
-                            );
+                            await _todoService.repository.delete(item);
+
+                            if (mounted) {
+                              Navigator.pop(context);
+                            }
                           },
                           child: const Text('OK'),
                         ),
                       ],
-                    ),
-                  ),
+                    );
+                  },
                   icon: const Icon(Icons.delete),
                 )
               ],
