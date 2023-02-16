@@ -5,12 +5,14 @@ class LoadingComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: SizedBox(
-        width: 30,
-        height: 30,
-        key: Key("loading_indicator"),
-        child: CircularProgressIndicator(),
+    return const Scaffold(
+      body: Center(
+        child: SizedBox(
+          width: 30,
+          height: 30,
+          key: Key("loading_indicator"),
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }
