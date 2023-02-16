@@ -27,11 +27,24 @@ class _TodoCardState extends State<TodoCard>
   @override
   void initState() {
     checked = widget.todo.checked;
-
     super.initState();
   }
 
-  checkHandle() {}
+  checkTodo(bool? value) {
+    setState(() {
+      checked = value!;
+
+      _todoService.repository.update(widget.todo.copyWith(checked: value));
+    });
+  }
+
+  deleteTodo() async {
+    await _todoService.repository.delete(widget.todo);
+
+    if (mounted) {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +65,7 @@ class _TodoCardState extends State<TodoCard>
             actions: <Widget>[
               TextButton(
                 key: Key('todo-card-delete-${widget.index}'),
-                onPressed: () async {
-                  await _todoService.repository.delete(widget.todo);
-
-                  if (mounted) {
-                    Navigator.pop(context);
-                  }
-                },
+                onPressed: deleteTodo,
                 child: const Text('OK'),
               ),
             ],
@@ -71,14 +78,7 @@ class _TodoCardState extends State<TodoCard>
               Checkbox(
                 key: Key('todo-check-${widget.index}'),
                 value: checked,
-                onChanged: (bool? value) {
-                  setState(() {
-                    checked = value!;
-
-                    _todoService.repository
-                        .update(widget.todo.copyWith(checked: value));
-                  });
-                },
+                onChanged: checkTodo,
               ),
               const SizedBox(width: 10),
               Column(

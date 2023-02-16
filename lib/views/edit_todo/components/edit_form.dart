@@ -2,42 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '/data/data.dart';
-import '/domain/domain.dart';
 import '/views/views.dart';
 
-class NewTodoPage extends StatefulWidget {
-  const NewTodoPage({super.key});
+class EditTodoForm extends StatefulWidget {
+  final TodoLocalData todo;
+
+  const EditTodoForm({super.key, required this.todo});
 
   @override
-  State<NewTodoPage> createState() => _NewTodoPageState();
+  State<EditTodoForm> createState() => _EditTodoFormState();
 }
 
-class _NewTodoPageState extends State<NewTodoPage> {
+class _EditTodoFormState extends State<EditTodoForm> {
   final _formKey = GlobalKey<FormState>();
 
   final TodoService _todoService = TodoService();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  createTodo() async {
+  @override
+  void initState() {
+    _nameController.text = widget.todo.name;
+    _descriptionController.text = widget.todo.description;
+
+    super.initState();
+  }
+
+  updateTodo() async {
     if (_formKey.currentState!.validate()) {
-      await _todoService.repository.create(
-        Todo(
+      await _todoService.repository.update(
+        widget.todo.copyWith(
           name: _nameController.text,
           description: _descriptionController.text,
         ),
       );
 
-      if (!mounted) return;
-
-      context.go('/');
+      if (mounted) {
+        context.go('/details/${widget.todo.id}');
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New todo')),
+      appBar: AppBar(title: Text('Edit: ${widget.todo.name}')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(
@@ -46,7 +55,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                key: const Key('name_input'),
+                key: const Key('textfield-edit-name'),
                 controller: _nameController,
                 validator: PagesController.validateName,
                 decoration: const InputDecoration(
@@ -56,7 +65,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                key: const Key('description_input'),
+                key: const Key('textfield-edit-description'),
                 controller: _descriptionController,
                 validator: PagesController.validateDescription,
                 maxLines: null,
@@ -68,12 +77,12 @@ class _NewTodoPageState extends State<NewTodoPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                key: const Key('submit_button'),
-                onPressed: createTodo,
+                key: const Key('update-button'),
+                onPressed: updateTodo,
                 child: const SizedBox(
                   width: double.infinity,
                   child: Center(
-                    child: Text('Create todo'),
+                    child: Text('Update todo'),
                   ),
                 ),
               )

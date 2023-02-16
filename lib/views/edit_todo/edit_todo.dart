@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/views/edit_todo/components/edit_error.dart';
 
 import '/data/data.dart';
 import '/core/core.dart';
-import 'components/edit_todo_form.dart';
+import 'components/edit_form.dart';
 
 class EditTodoPage extends StatefulWidget {
   final String? id;
@@ -22,27 +23,15 @@ class EditTodoPageState extends State<EditTodoPage> {
       stream: _localRepository.get(id: widget.id!),
       builder: (context, AsyncSnapshot<TodoLocalData> snapshot) {
         if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(title: const Text('error')),
-            body: const Center(child: Text('Something went wrong')),
-          );
+          return const EditError();
         }
 
         if (snapshot.hasData) {
           TodoLocalData todo = snapshot.data!;
-          return Scaffold(
-            appBar: AppBar(title: Text('Edit: ${todo.name}')),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: EditTodoForm(todo: todo),
-            ),
-          );
+          return EditTodoForm(todo: todo);
         }
 
-        return Scaffold(
-          appBar: AppBar(title: const Text('Loading...')),
-          body: const LoadingComponent(),
-        );
+        return const LoadingComponent();
       },
     );
   }
