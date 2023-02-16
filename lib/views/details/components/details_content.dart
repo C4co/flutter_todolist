@@ -10,6 +10,14 @@ class DetailsContent extends StatelessWidget {
 
   DetailsContent({super.key, required this.item});
 
+  deleteTodo(BuildContext context) async {
+    await _todoService.repository.delete(item);
+
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +39,8 @@ class DetailsContent extends StatelessWidget {
                 content: 'Are you sure to delete (${item.name}) todo?',
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () async {
-                      await _todoService.repository.delete(item);
-
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                      }
+                    onPressed: () {
+                      deleteTodo(context);
                     },
                     child: const Text('OK'),
                   ),
