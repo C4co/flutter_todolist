@@ -14,7 +14,7 @@ class DetailsContent extends StatelessWidget {
     await _todoService.repository.delete(item);
 
     if (context.mounted) {
-      Navigator.pop(context);
+      context.go('/');
     }
   }
 
