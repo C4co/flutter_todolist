@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'new_todo_controller.dart';
 
-import '/data/data.dart';
-import '/domain/domain.dart';
 import '/views/views.dart';
 
 class NewTodoPage extends StatefulWidget {
@@ -12,28 +10,7 @@ class NewTodoPage extends StatefulWidget {
   State<NewTodoPage> createState() => _NewTodoPageState();
 }
 
-class _NewTodoPageState extends State<NewTodoPage> {
-  final _formKey = GlobalKey<FormState>();
-
-  final TodoService _todoService = TodoService();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-
-  createTodo() async {
-    if (_formKey.currentState!.validate()) {
-      await _todoService.repository.create(
-        Todo(
-          name: _nameController.text,
-          description: _descriptionController.text,
-        ),
-      );
-
-      if (!mounted) return;
-
-      context.go('/');
-    }
-  }
-
+class _NewTodoPageState extends State<NewTodoPage> with NewTodoController {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +18,13 @@ class _NewTodoPageState extends State<NewTodoPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 key: const Key('name_input'),
-                controller: _nameController,
+                controller: nameController,
                 validator: PagesController.validateName,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.edit),
@@ -57,7 +34,7 @@ class _NewTodoPageState extends State<NewTodoPage> {
               const SizedBox(height: 20),
               TextFormField(
                 key: const Key('description_input'),
-                controller: _descriptionController,
+                controller: descriptionController,
                 validator: PagesController.validateDescription,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -69,7 +46,9 @@ class _NewTodoPageState extends State<NewTodoPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 key: const Key('submit_button'),
-                onPressed: createTodo,
+                onPressed: () {
+                  createTodo(context);
+                },
                 child: const SizedBox(
                   width: double.infinity,
                   child: Center(
