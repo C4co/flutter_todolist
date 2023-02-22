@@ -848,10 +848,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "2277c73618916ae3c2082b6df67b6ebb64b4c69d9bf23b23700707952ac30e60"
+      sha256: a4040e9852e56bf8a3c5a2e08a56f6facd76e75500cf2a922ce5d52394c4998a
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.2"
+    version: "11.0.1"
   watcher:
     dependency: transitive
     description:
